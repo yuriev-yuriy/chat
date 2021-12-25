@@ -1,0 +1,50 @@
+.own-message {
+    border-radius: 0 20px 20px;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 1rem;
+}
+
+.own-message .message-info {
+    border-radius: 20px 0 20px 20px;
+}
+
+.own-message .message-text {
+    align-self: flex-end;
+}
+
+.btn-wrapper {
+    align-self: flex-end;
+    display: flex;
+}
+
+.message-delete, .message-edit {
+    align-self: flex-end;
+    background-color: transparent;
+    border: none;
+    height: 16px;
+    position: relative;
+    width: 16px;
+}
+
+.message-delete-icon, .message-edit-icon{
+    bottom: 0;
+    fill: #a5a5a5;
+    font-size: 2em;
+    height: 14px;
+    left: 2px;
+    position: absolute;
+    width: 14px;
+}
+
+.message-delete-icon {
+    margin-right: 1rem;
+}
+
+.message-edit {
+    margin-right: 0.2rem;;
+}
+
+.message-delete-icon:hover, .message-edit-icon:hover {
+    fill: #000;
+}

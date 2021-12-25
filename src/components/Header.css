@@ -1,0 +1,18 @@
+.header {
+    align-items: center;
+    background-color: #c0c0c0;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 0 2rem;
+}
+
+.header-info {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-info * {
+    margin: 0.2rem;
+}
