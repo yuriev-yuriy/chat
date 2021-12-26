@@ -13,7 +13,8 @@ function Chat({className, url}) {
   const [usersCount, setUsersCount] = useState(20);
   const [msg, setMsg] = useState("");
   const [msgData, setMsgData] = useState(mockData);
-  console.log(msgData)
+  const [toEdit, setToEdit] = useState(false);
+  const [messageToEdit, setMessageToEdit] = useState({});
   function handleMsgInput (e) {
     setMsg(e.target.value);
   }
@@ -32,7 +33,8 @@ function Chat({className, url}) {
 
   function handleFormSubmit (e, msgToEdit=null) {
     e?.preventDefault();
-    setMsgData(
+
+    setMsgData( 
       [...msgData, {
     "id": "80f08600-1b8f-11e8-9629-c7eca82aa7bd",
     "userId": "9e243930-83c9-11e9-8e0c-8f1a686f4ce4",
@@ -42,7 +44,9 @@ function Chat({className, url}) {
     "createdAt": (new Date().toString()).substring(0, 24),
     "editedAt": "",
     "ownMsg": true
-    }])
+    }]
+    )
+  
     setMsg("");
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -50,17 +54,22 @@ function Chat({className, url}) {
     });
 }
 
+function handleSubmitEdit(e) {
+  e?.preventDefault();
+  setMsgData(msgData.map(each => {
+      if(each === messageToEdit) {
+        return {...each, text: msg, "editedAt": new Date().toString().substring(0, 24)}
+      }
+      return each
+    }))
+    setMsg("");
+    setToEdit(false);
+}
+
 function handleMessageEdit(id) {
-  // handleFormSubmit(null, id)
-  // setMsgData(msgData.map((each, index) => {
-  //   if(each === id) {
-  //     handleFormSubmit(null, id)
-  //     return {...each, "editedAt": (new Date().toString()).substring(0, 24)}
-  //   }
-  //   return each
-  // }))
-  // setMsg(id.text);
-  // handleFormSubmit(null)
+  setToEdit(true);
+  setMessageToEdit(id);
+  setMsg(id.text);
   }
 
   function handleMsgDelete(id) {
@@ -75,7 +84,7 @@ function handleMessageEdit(id) {
     <div className={className} url={url}>
       <Header className="header" usersCount={usersCount} mockData={msgData}>{chatName}</Header>
       <MessageList className="message-list" mockData={msgData} onMsgEdit={handleMessageEdit} onMsgDelete={handleMsgDelete} isLoaded={isLoaded}/>
-      <MessageInput className="message-input" msg={msg} onMsgInput={handleMsgInput} onFormSubmit={handleFormSubmit}/>
+      <MessageInput className="message-input" msg={msg} onMsgInput={handleMsgInput} onFormSubmit={handleFormSubmit} toEdit={toEdit} onSubmitEdit={handleSubmitEdit}/>
     </div>
   );
 }
