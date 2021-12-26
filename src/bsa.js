@@ -1,11 +1,15 @@
 import {useState, useEffect} from 'react';
-import Header from './components/Header.tsx';
+import Header from './components/Header.jsx';
 import MessageList from './components/MessageList';
 import MessageInput from './components/MessageInput';
 import mockData from './mockData';
 import API from './helpers/API';
+import './components/Chat.css';
 
 function Chat({className, url}) {
+  // most of these states will be removed by fetched data
+  const [chatName, setChatName] = useState("Allien Chat");
+  const [isLoaded, setIsLoaded] = useState(false);
   const [usersCount, setUsersCount] = useState(20);
   const [msg, setMsg] = useState("");
   const [msgData, setMsgData] = useState(mockData);
@@ -14,14 +18,19 @@ function Chat({className, url}) {
     setMsg(e.target.value);
   }
 
-  // useEffect(() => {
-  //   use with real beckend data
-  //   const getChat = async () => {
-  //     const data = await API.get();
-  //   }
-  // })
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true)
+    }, 1500)
+    // use with real beckend data
+    // const getChat = async () => {
+    //   const data = await API.get();
+    // }
+  })
 
-  function handleFormSubmit (e) {
+
+
+  function handleFormSubmit (e, msgToEdit=null) {
     e?.preventDefault();
     setMsgData(
       [...msgData, {
@@ -42,13 +51,16 @@ function Chat({className, url}) {
 }
 
 function handleMessageEdit(id) {
+  // handleFormSubmit(null, id)
   // setMsgData(msgData.map((each, index) => {
   //   if(each === id) {
-  //     return {each, edited: true, "createdAt": (new Date().toString()).substring(0, 24), "ownMsg": true}
+  //     handleFormSubmit(null, id)
+  //     return {...each, "editedAt": (new Date().toString()).substring(0, 24)}
   //   }
   //   return each
   // }))
   // setMsg(id.text);
+  // handleFormSubmit(null)
   }
 
   function handleMsgDelete(id) {
@@ -61,8 +73,8 @@ function handleMessageEdit(id) {
   }
   return (
     <div className={className} url={url}>
-      <Header className="header" usersCount={usersCount} mockData={msgData}>Hello</Header>
-      <MessageList className="message-list" mockData={msgData} onMsgEdit={handleMessageEdit} onMsgDelete={handleMsgDelete}/>
+      <Header className="header" usersCount={usersCount} mockData={msgData}>{chatName}</Header>
+      <MessageList className="message-list" mockData={msgData} onMsgEdit={handleMessageEdit} onMsgDelete={handleMsgDelete} isLoaded={isLoaded}/>
       <MessageInput className="message-input" msg={msg} onMsgInput={handleMsgInput} onFormSubmit={handleFormSubmit}/>
     </div>
   );
