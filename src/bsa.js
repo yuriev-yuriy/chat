@@ -20,9 +20,11 @@ function Chat({className, url}) {
   }
 
   useEffect(() => {
+    if(!isLoaded) {
     setTimeout(() => {
       setIsLoaded(true)
     }, 1500)
+  }
     // use with real beckend data
     // const getChat = async () => {
     //   const data = await API.get();
